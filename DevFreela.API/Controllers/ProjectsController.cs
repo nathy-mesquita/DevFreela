@@ -27,7 +27,7 @@ namespace DevFreela.API.Controllers
             return Ok();
         }
 
-        // POST project
+        // POST projects
         [HttpPost]
         public IActionResult Post([FromBody] CreateProjectModel createProject)
         {
@@ -40,7 +40,7 @@ namespace DevFreela.API.Controllers
             return CreatedAtAction(nameof(GetById), new { id = createProject.Id}, createProject);
         }
 
-        // PUT api/project/id
+        // PUT api/projects/id
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] UpdateProjectModel updateProject)
         {
@@ -53,7 +53,7 @@ namespace DevFreela.API.Controllers
             return NoContent();
         }
 
-        // DELETE api/project/id
+        // DELETE api/projects/id
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
@@ -61,6 +61,28 @@ namespace DevFreela.API.Controllers
 
             //Remover (permanente ou alterar uma flag(Ativo/inativo)) 
             return NoContent();
+        }
+
+        // POST api/projects/id/comments
+        [HttpPost("{id}/comments")]
+        public IActionResult PosComment(int id, [FromBody] CreateCommentModel createComment)
+        {
+            // 400 - return BadRequest();
+            return NoContent(); //204
+        }
+
+        // PUT api/projects/id/start
+        [HttpPut("{id}/start")]
+        public IActionResult Start(int id)
+        {
+            return NoContent(); //204
+        }
+
+        //PUT api/projects/id/finish
+        [HttpPut("{id}/finish")]
+        public IActionResult Finish(int id)
+        {
+            return NoContent(); //204
         }
 
     }
