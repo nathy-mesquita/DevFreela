@@ -4,12 +4,20 @@ using DevFreela.API.Models;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using Microsoft.Extensions.Options;
 
 namespace DevFreela.API.Controllers
 {
     [Route("api/[controller]")]
     public class ProjectsController : ControllerBase
     {
+        private readonly OpeningTimeOption _option;
+
+        public ProjectsController(IOptions<OpeningTimeOption> option)
+        {
+            _option = option.Value;
+        }
+
         // GET: api/projects?query=net core
         [HttpGet]
         public IActionResult Get(string query)
