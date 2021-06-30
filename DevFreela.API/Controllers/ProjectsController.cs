@@ -13,8 +13,9 @@ namespace DevFreela.API.Controllers
     {
         private readonly OpeningTimeOption _option;
 
-        public ProjectsController(IOptions<OpeningTimeOption> option)
+        public ProjectsController(IOptions<OpeningTimeOption> option, ExampleClass exampleClass)
         {
+            exampleClass.Name = "Updated at ProjectsController";
             _option = option.Value;
         }
 

@@ -10,6 +10,11 @@ namespace DevFreela.API.Controllers
     [Route("api/[controller]")]
     public class UsersController : ControllerBase
     {
+        public UsersController(ExampleClass exampleClass)
+        {
+            exampleClass.Name = "Updated at UserController";
+        }
+
         [HttpGet]
         public IActionResult Get(string query) 
         {

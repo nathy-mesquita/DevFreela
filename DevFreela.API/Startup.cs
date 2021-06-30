@@ -29,6 +29,12 @@ namespace DevFreela.API
         {
             services.Configure<OpeningTimeOption>(Configuration.GetSection("OpeningTime"));
 
+            //Instância para toda aplicação enquanto ela estiver inicializada.
+            services.AddSingleton<ExampleClass>(e => new ExampleClass { Name = "Initial Stage Singleton" });
+
+            //Instância para toda requisição
+            //services.AddScoped<ExampleClass>(e => new ExampleClass { Name = "Initial Stage Scoped" });
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
