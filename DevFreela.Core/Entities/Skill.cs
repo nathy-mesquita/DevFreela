@@ -2,7 +2,7 @@ using System;
 
 namespace DevFreela.Core.Entities
 {
-    public class Skill
+    public class Skill : BaseEntity
     {
         public Skill(string description)
         {
