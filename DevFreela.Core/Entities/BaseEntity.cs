@@ -5,6 +5,6 @@ namespace DevFreela.Core.Entities
         protected BaseEntity()
         {
         }
-        public int Id { get; private set; }    
+        public int Id { get; protected set; }    
     }
 }
