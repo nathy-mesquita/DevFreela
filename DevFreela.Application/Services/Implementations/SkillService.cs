@@ -10,10 +10,8 @@ namespace DevFreela.Application.Services.Implementations
     {
         private readonly DevFreelaDbContext _dbContext;
 
-        public SkillService(DevFreelaDbContext dbContext)
-        {
-            _dbContext = dbContext;
-        }
+        public SkillService(DevFreelaDbContext dbContext) 
+        => _dbContext = dbContext;
 
         public List<SkillViewModel> GetAll()
         {
