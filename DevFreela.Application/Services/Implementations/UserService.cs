@@ -46,11 +46,5 @@ namespace DevFreela.Application.Services.Implementations
             _dbContext.Users.Add(user);
             return user.Id;
         }
-
-        public void Update(UpdateUserInputModel inputModel)
-        {
-            var user = _dbContext.Users.SingleOrDefault(u => u.Id == inputModel.Id);
-            user.Update(inputModel.Email);
-        }
     }
 }

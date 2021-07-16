@@ -4,41 +4,43 @@ using DevFreela.API.Models;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using DevFreela.Application.Services.Interfaces;
+using DevFreela.Application.Models.InputModels;
 
 namespace DevFreela.API.Controllers
 {
     [Route("api/[controller]")]
     public class UsersController : ControllerBase
     {
-        public UsersController(ExampleClass exampleClass)
-        {
-            exampleClass.Name = "Updated at UserController";
-        }
+        private readonly IUserService _userService;
+
+        public UsersController(IUserService userService) 
+        => _userService = userService;
 
         [HttpGet]
         public IActionResult Get(string query) 
         {
-            //Buscar Todos ou Filtrar
-            // return NotFound();
-            return Ok(); //200
+            var users = _userService.GetAll(query);
+            //if(users == null) return NotFound();
+            return Ok(users); //200
         }
 
         //GET api/Users/id
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
-           //404- return NotFound();
-            return Ok(); //200
+            var user = _userService.GetById(id);
+            if(user == null) return NotFound();
+            return Ok(user); //200
         }
 
         // POS api/Users
         [HttpPost]
-        public IActionResult Post([FromBody] CreateUserModel createUser)
+        public IActionResult Post([FromBody] NewUserInputModel inputModel)
         {
+            var id = _userService.Create(inputModel);
             //400 - return BadRequest();
-
-            //O que ele espera? -Nome da rota, Qual parâmetro ele recebe? - id, Qual vai ser o retorno? -Objeto cadastrado (CreateUser)
-            return CreatedAtAction(nameof(GetById), new { id = 1 }, createUser);
+            return CreatedAtAction(nameof(GetById), new { id = id }, inputModel);
         }
 
         //PUT api/users/id/login
@@ -47,6 +49,5 @@ namespace DevFreela.API.Controllers
         {
             return NoContent();
         }
-       
     }
 }
