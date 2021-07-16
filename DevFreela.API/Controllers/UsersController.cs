@@ -36,7 +36,7 @@ namespace DevFreela.API.Controllers
 
         // POS api/Users
         [HttpPost]
-        public IActionResult Post([FromBody] NewUserInputModel inputModel)
+        public IActionResult Post([FromBody] CreateUserInputModel inputModel)
         {
             var id = _userService.Create(inputModel);
             //400 - return BadRequest();

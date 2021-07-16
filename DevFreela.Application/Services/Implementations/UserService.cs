@@ -40,7 +40,7 @@ namespace DevFreela.Application.Services.Implementations
             return userDetailsViewModel;
         }
 
-        public int Create(NewUserInputModel inputModel)
+        public int Create(CreateUserInputModel inputModel)
         {
             var user = new User(inputModel.FullName, inputModel.Email, inputModel.BirthDate);
             _dbContext.Users.Add(user);
