@@ -86,7 +86,7 @@ namespace DevFreela.Infrastructure.Persistence
             .HasKey(u => u.Id);
 
             //O User tem muitas skills (UserSkill)
-            //?A UserSkill tem um usuário?
+            //A UserSkill tem um usuário
             //Chave estrangeira so relacionamento -> IdSkill
             //Caso um relacionamento seja deletado, retringir o procedimento
             modelBuilder.Entity<User>()
