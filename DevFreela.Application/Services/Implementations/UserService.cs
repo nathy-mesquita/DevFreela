@@ -25,7 +25,6 @@ namespace DevFreela.Application.Services.Implementations
 
             return userViewModel;
         }
-
         public UserDetailsViewModel GetById(int id)
         {
             var user = _dbContext.Users.SingleOrDefault(u => u.Id == id);
@@ -39,7 +38,6 @@ namespace DevFreela.Application.Services.Implementations
             );
             return userDetailsViewModel;
         }
-
         public int Create(CreateUserInputModel inputModel)
         {
             var user = new User(inputModel.FullName, inputModel.Email, inputModel.BirthDate);
