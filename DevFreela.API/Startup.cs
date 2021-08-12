@@ -33,10 +33,19 @@ namespace DevFreela.API
         {
             services.Configure<OpeningTimeOption>(Configuration.GetSection("OpeningTime"));
 
+            /*
+             * Usando SQL Server
             var connectionString = Configuration.GetConnectionString("DevFreelaCs");
             services.AddDbContext<DevFreelaDbContext>(
                 options => options.UseSqlServer(connectionString)
             );
+            */
+
+            /*
+             * Usando SQLite
+             */
+            var sqlPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            services.AddDbContext<DevFreelaDbContext>(o => o.UseSqlite(Configuration.GetConnectionString("SqliteConnection")));
 
             services.AddScoped<IProjectService, ProjectService>();
             services.AddScoped<IUserService, UserService>();
