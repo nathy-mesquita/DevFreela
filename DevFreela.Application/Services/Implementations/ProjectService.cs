@@ -46,11 +46,11 @@ namespace DevFreela.Application.Services.Implementations
         }
         public ProjectDetailsViewModel GetById(int id)
         {
-            // var project = _dbContext.Projects
-            //     .Include(p => p.Client)
-            //     .Include(p => p.Freelancer) 
-            //     .SingleOrDefault(p => p.Id == id);
-            //if (project == null) return null;
+            var project = _dbContext.Projects
+                .Include(p => p.Client)
+                .Include(p => p.Freelancer) 
+                .SingleOrDefault(p => p.Id == id);
+            if (project == null) return null;
 
             // Todo: Refatorando com Dapper
             using(var sqlConnection = new SqlConnection(_connectionString))
