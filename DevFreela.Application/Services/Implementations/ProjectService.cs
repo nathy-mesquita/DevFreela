@@ -46,32 +46,33 @@ namespace DevFreela.Application.Services.Implementations
         }
         public ProjectDetailsViewModel GetById(int id)
         {
-            var project = _dbContext.Projects
-                .Include(p => p.Client)
-                .Include(p => p.Freelancer) 
-                .SingleOrDefault(p => p.Id == id);
-            if (project == null) return null;
+            // var project = _dbContext.Projects
+            //     .Include(p => p.Client)
+            //     .Include(p => p.Freelancer) 
+            //     .SingleOrDefault(p => p.Id == id);
+            //if (project == null) return null;
 
             // Todo: Refatorando com Dapper
             using(var sqlConnection = new SqlConnection(_connectionString))
             {
                 sqlConnection.Open();
-                var script = "SELECT  p.Id, p.Title, p.Description, p.TotalCost, p.StartedAt, p.FinishedAt,  u.FullName,  FROM Projects p INNER JOIN Users u ON p.Id = u.Id;";
-                return sqlConnection.Query<ProjectDetailsViewModel>(script).SingleOrDefault(p => p.Id == id);
+                var script = "SELECT p.Id as Id, p.Title as Title, p.Description as Description, c.FullName as Client, f.FullName as Freelancer, p.TotalCost as TotalCost, p.CreatedAt as CreatedAt, p.StartedAt as StartedAt, p.FinishedAt as FinishedAt FROM Projects p INNER JOIN Users u ON u.Id = p.Id INNER JOIN Users c ON c.Id = p.IdCliente INNER JOIN Users f ON f.Id = p.IdFreelancer;";
+                var result = sqlConnection.Query<ProjectDetailsViewModel>(script);
+                return result.SingleOrDefault(p => p.Id == id);
             }
 
             //! Caso esteja usando o EF Core In Memory o Dapper não funcionará
-            var projectDetailsViewModel = new ProjectDetailsViewModel(
-                project.Id,
-                project.Title,
-                project.Description,
-                project.TotalCost,
-                project.StartedAt,
-                project.FinishedAt,
-                project.Client.FullName,
-                project.Freelancer.FullName
-            );
-            return projectDetailsViewModel;
+            // var projectDetailsViewModel = new ProjectDetailsViewModel(
+            //     project.Id,
+            //     project.Title,
+            //     project.Description,
+            //     project.TotalCost,
+            //     project.StartedAt,
+            //     project.FinishedAt,
+            //     project.Client.FullName,
+            //     project.Freelancer.FullName
+            // );
+            // return projectDetailsViewModel;
         }
         public int Create(NewProjectInputModel inputModel)
         {
