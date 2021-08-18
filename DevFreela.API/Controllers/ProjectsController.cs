@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using DevFreela.Application.Services.Interfaces;
 using DevFreela.Application.Models.InputModels;
+using MediatR;
+using DevFreela.Application.Commands.CreateProject;
 
 namespace DevFreela.API.Controllers
 {
@@ -13,9 +15,14 @@ namespace DevFreela.API.Controllers
     public class ProjectsController : ControllerBase
     {
         private readonly IProjectService _projectService;
+        private readonly IMediator _mediator;
 
-        public ProjectsController(IProjectService projectService) 
-        => _projectService = projectService;
+        public ProjectsController(IProjectService projectService, IMediator mediator)
+        {
+            _projectService = projectService;
+            _mediator = mediator;
+        }
+
 
         // GET: api/projects?query=netCore
         [HttpGet]
@@ -39,14 +46,14 @@ namespace DevFreela.API.Controllers
 
         // POST projects
         [HttpPost]
-        public IActionResult Post([FromBody] NewProjectInputModel inputModel)
+        public async Task<IActionResult> Post([FromBody] CreateProjectCommand command)
         {
-            if (inputModel.Title.Length > 50)
+            if (command.Title.Length > 50)
             {
                 return BadRequest();
             }
-            var id = _projectService.Create(inputModel);
-            return CreatedAtAction(nameof(GetById), new { id = id}, inputModel);
+            var id = await _mediator.Send(command);
+            return CreatedAtAction(nameof(GetById), new { id = id}, command);
         }
 
         // PUT api/projects/id

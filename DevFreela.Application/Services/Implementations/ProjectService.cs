@@ -45,13 +45,14 @@ namespace DevFreela.Application.Services.Implementations
             );
             return projectDetailsViewModel;
         }
-        public int Create(NewProjectInputModel inputModel)
-        {
-            var project = new Project(inputModel.Title, inputModel.Description, inputModel.IdCliente, inputModel.IdFreelancer, inputModel.TotalCost);
-            _dbContext.Projects.Add(project);
-            _dbContext.SaveChanges();
-            return project.Id;
-        }
+        
+        // public int Create(NewProjectInputModel inputModel)
+        // {
+        //     var project = new Project(inputModel.Title, inputModel.Description, inputModel.IdCliente, inputModel.IdFreelancer, inputModel.TotalCost);
+        //     _dbContext.Projects.Add(project);
+        //     _dbContext.SaveChanges();
+        //     return project.Id;
+        // }
         public void Update(UpdateProjectInputModel inputModel)
         {
             var project = _dbContext.Projects.SingleOrDefault(p => p.Id == inputModel.Id);
