@@ -65,12 +65,12 @@ namespace DevFreela.Application.Services.Implementations
             project.Cancel();
             _dbContext.SaveChanges();
         }
-        public void CreateComment(CreateCommentInputModel inputModel)
-        {
-            var comment = new ProjectComments(inputModel.Content, inputModel.IdProject, inputModel.IdUser);
-            _dbContext.ProjectComments.Add(comment);
-            _dbContext.SaveChanges();
-        }
+        // public void CreateComment(CreateCommentInputModel inputModel)
+        // {
+        //     var comment = new ProjectComments(inputModel.Content, inputModel.IdProject, inputModel.IdUser);
+        //     _dbContext.ProjectComments.Add(comment);
+        //     _dbContext.SaveChanges();
+        // }
         public void Start(int id)
         {
             var project = _dbContext.Projects.SingleOrDefault(p => p.Id == id);
