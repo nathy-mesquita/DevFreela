@@ -1,6 +1,10 @@
 using DevFreela.API.Models;
 using DevFreela.Application.Commands.CreateComment;
 using DevFreela.Application.Commands.CreateProject;
+using DevFreela.Application.Commands.DeleteProject;
+using DevFreela.Application.Commands.FinishProject;
+using DevFreela.Application.Commands.StartProject;
+using DevFreela.Application.Commands.UpdateProject;
 using DevFreela.Application.Services.Implementations;
 using DevFreela.Application.Services.Interfaces;
 using DevFreela.Infrastructure.Persistence;
@@ -48,6 +52,10 @@ namespace DevFreela.API
 
             services.AddMediatR(typeof(CreateProjectCommand));
             services.AddMediatR(typeof(CreateCommentCommand));
+            services.AddMediatR(typeof(DeleteProjectCommand));
+            services.AddMediatR(typeof(UpdateProjectCommand));
+            services.AddMediatR(typeof(StartProjectCommand));
+            services.AddMediatR(typeof(FinishProjectCommand));
 
             services.AddSwaggerGen(c =>
             {
