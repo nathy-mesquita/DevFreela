@@ -1,6 +1,7 @@
 using DevFreela.API.Models;
 using DevFreela.Application.Commands.CreateComment;
 using DevFreela.Application.Commands.CreateProject;
+using DevFreela.Application.Commands.CreateUser;
 using DevFreela.Application.Commands.DeleteProject;
 using DevFreela.Application.Commands.FinishProject;
 using DevFreela.Application.Commands.StartProject;
@@ -56,6 +57,7 @@ namespace DevFreela.API
             services.AddMediatR(typeof(UpdateProjectCommand));
             services.AddMediatR(typeof(StartProjectCommand));
             services.AddMediatR(typeof(FinishProjectCommand));
+            services.AddMediatR(typeof(CreateUserCommand));
 
             services.AddSwaggerGen(c =>
             {
