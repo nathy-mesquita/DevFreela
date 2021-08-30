@@ -1,6 +1,4 @@
-﻿using System;
-using MediatR;
-using System.Linq;
+﻿using MediatR;
 using DevFreela.API.Models;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
