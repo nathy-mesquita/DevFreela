@@ -6,6 +6,8 @@ using DevFreela.Infrastructure.Persistence;
 
 namespace DevFreela.Application.Commands.CreateComment
 {
+
+    //Todo: Refatorar as classes commands para Handler
     public class CreateCommentCommandHandle : IRequestHandler<CreateCommentCommand, Unit>
     {
         private readonly DevFreelaDbContext _dbContext;

@@ -1,4 +1,3 @@
-using DevFreela.API.Models;
 using DevFreela.Application.Commands.CreateComment;
 using DevFreela.Application.Commands.CreateProject;
 using DevFreela.Application.Commands.CreateUser;

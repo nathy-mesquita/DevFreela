@@ -4,38 +4,37 @@ using System.Linq;
 using DevFreela.API.Models;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using DevFreela.Application.Services.Interfaces;
-using DevFreela.Application.Models.InputModels;
 using DevFreela.Application.Commands.CreateUser;
+using DevFreela.Application.Queries.GetAllUsers;
+using DevFreela.Application.Queries.GetUserById;
 
 namespace DevFreela.API.Controllers
 {
     [Route("api/[controller]")]
     public class UsersController : ControllerBase
     {
-        private readonly IUserService _userService;
         private readonly IMediator _mediator;
 
-        public UsersController(IUserService userService, IMediator mediator)
+        public UsersController(IMediator mediator)
         {
-            _userService = userService;
             _mediator = mediator;
         }
 
         [HttpGet]
-        public IActionResult Get(string query) 
+        public async Task<IActionResult> Get(string query) 
         {
-            var users = _userService.GetAll(query);
-            //if(users == null) return NotFound();
+            var getAllUsersQuery = new GetAllUsersQuery(query);
+            var users = await _mediator.Send(getAllUsersQuery);
+            if(users == null) return NotFound();
             return Ok(users); //200
         }
 
         //GET api/Users/id
         [HttpGet("{id}")]
-        public IActionResult GetById(int id)
+        public async Task<IActionResult> GetById(int id)
         {
-            var user = _userService.GetById(id);
+            var query = new GetUserQuery(id);
+            var user = await _mediator.Send(query);
             if(user == null) return NotFound();
             return Ok(user); //200
         }

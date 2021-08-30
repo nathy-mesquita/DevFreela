@@ -8,6 +8,6 @@ namespace DevFreela.Application.Services.Interfaces
     {
         List<UserViewModel> GetAll(string query);
         UserDetailsViewModel GetById(int id);
-        //int Create(CreateUserInputModel inputModel);
+        int Create(CreateUserInputModel inputModel);
     }
 }
