@@ -1,90 +1,44 @@
-using DevFreela.API.Models;
-using DevFreela.Application.Commands.CreateComment;
-using DevFreela.Application.Commands.CreateProject;
-using DevFreela.Application.Commands.CreateUser;
-using DevFreela.Application.Commands.DeleteProject;
-using DevFreela.Application.Commands.FinishProject;
-using DevFreela.Application.Commands.StartProject;
-using DevFreela.Application.Commands.UpdateProject;
-using DevFreela.Application.Services.Implementations;
-using DevFreela.Application.Services.Interfaces;
-using DevFreela.Infrastructure.Persistence;
-using MediatR;
+using DevFreela.Application;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using DevFreela.Infrastructure.Persistence;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace DevFreela.API
 {
     public class Startup
     {
+        private readonly IConfiguration _configuration;
         public Startup(IConfiguration configuration)
         {
-            Configuration = configuration;
+            _configuration = configuration;
         }
-
-        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var connectionString = Configuration.GetConnectionString("DevFreelaCs");
+            services.AddWebApi();
+            services.AddApplication(_configuration);
+            //services.AddRepositories(_configuration);
+            services.AddSwaggerApiDoc();
+
+            var connectionString = _configuration.GetConnectionString("DevFreelaCs");
             services.AddDbContext<DevFreelaDbContext>(
                 options => options.UseSqlServer(connectionString)
             );
-
-            services.AddScoped<IProjectService, ProjectService>();
-            services.AddScoped<IUserService, UserService>();
-            services.AddScoped<ISkillService, SkillService>();
-            services.AddScoped<IUserSkillService, UserSkillService>();
-
-            services.AddControllers();
-
-            services.AddMediatR(typeof(CreateProjectCommand));
-            services.AddMediatR(typeof(CreateCommentCommand));
-            services.AddMediatR(typeof(DeleteProjectCommand));
-            services.AddMediatR(typeof(UpdateProjectCommand));
-            services.AddMediatR(typeof(StartProjectCommand));
-            services.AddMediatR(typeof(FinishProjectCommand));
-            services.AddMediatR(typeof(CreateUserCommand));
-
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "DevFreela.API", Version = "v1" });
-            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
+            app.UseWebApi();
+            if(env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "DevFreela.API v1"));
+                app.UseSwaggerApiDoc();
             }
-
-            app.UseHttpsRedirection();
-
-            app.UseRouting();
-
-            app.UseAuthorization();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
         }
     }
 }
