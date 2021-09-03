@@ -6,11 +6,11 @@ using DevFreela.Infrastructure.Persistence;
 
 namespace DevFreela.Application.Commands.CreateComment
 {
-    public class CreateCommentCommandHandle : IRequestHandler<CreateCommentCommand, Unit>
+    public class CreateCommentCommandHandler : IRequestHandler<CreateCommentCommand, Unit>
     {
         private readonly DevFreelaDbContext _dbContext;
 
-        public CreateCommentCommandHandle(DevFreelaDbContext dbContext) 
+        public CreateCommentCommandHandler(DevFreelaDbContext dbContext) 
             => _dbContext = dbContext;
 
         public async Task<Unit> Handle(CreateCommentCommand request, CancellationToken cancellationToken)

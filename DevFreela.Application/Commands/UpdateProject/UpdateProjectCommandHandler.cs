@@ -4,21 +4,21 @@ using System.Threading;
 using System.Threading.Tasks;
 using DevFreela.Infrastructure.Persistence;
 
-namespace DevFreela.Application.Commands.StartProject
+namespace DevFreela.Application.Commands.UpdateProject
 {
-    public class StartProjectCommandHandle : IRequestHandler<StartProjectCommand, Unit>
+    public class UpdateProjectCommandHandler : IRequestHandler<UpdateProjectCommand, Unit>
     {
         private readonly DevFreelaDbContext _dbContext;
 
-        public StartProjectCommandHandle(DevFreelaDbContext dbContext) 
+        public UpdateProjectCommandHandler(DevFreelaDbContext dbContext) 
             => _dbContext = dbContext;
 
-        public async Task<Unit> Handle(StartProjectCommand request, CancellationToken cancellationToken)
+        public async Task<Unit> Handle(UpdateProjectCommand request, CancellationToken cancellationToken)
         {
             var project = _dbContext.Projects.SingleOrDefault(p => p.Id == request.Id);
-            project.Start();
+            project.Update(request.Title, request.Description, request.TotalCost);
             await _dbContext.SaveChangesAsync();
-            
+
             return Unit.Value;
         }
     }

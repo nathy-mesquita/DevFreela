@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace DevFreela.Application.Commands.CreateProject
 {
-    public class CreateProjectCommandHandle : IRequestHandler<CreateProjectCommand, int>
+    public class CreateProjectCommandHandler : IRequestHandler<CreateProjectCommand, int>
     {
         private readonly DevFreelaDbContext _dbContext;
-        public CreateProjectCommandHandle(DevFreelaDbContext dbContext) 
+        public CreateProjectCommandHandler(DevFreelaDbContext dbContext) 
             => _dbContext = dbContext;
         public async Task<int> Handle(CreateProjectCommand request, CancellationToken cancellationToken)
         {

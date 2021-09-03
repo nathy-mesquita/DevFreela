@@ -6,11 +6,11 @@ using DevFreela.Infrastructure.Persistence;
 
 namespace DevFreela.Application.Commands.CreateUser
 {
-    public class CreateUserCommandHandle : IRequestHandler<CreateUserCommand, int>
+    public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, int>
     {
         private readonly DevFreelaDbContext _dbContext;
 
-        public CreateUserCommandHandle(DevFreelaDbContext dbContext) 
+        public CreateUserCommandHandler(DevFreelaDbContext dbContext) 
             => _dbContext = dbContext;
 
         public async Task<int> Handle(CreateUserCommand request, CancellationToken cancellationToken)

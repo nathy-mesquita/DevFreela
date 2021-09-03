@@ -6,10 +6,10 @@ using DevFreela.Infrastructure.Persistence;
 
 namespace DevFreela.Application.Commands.FinishProject
 {
-    public class FinishProjectCommandHandle : IRequestHandler<FinishProjectCommand, Unit>
+    public class FinishProjectCommandHandler : IRequestHandler<FinishProjectCommand, Unit>
     {
         private readonly DevFreelaDbContext _dbContext;
-        public FinishProjectCommandHandle(DevFreelaDbContext dbContext) 
+        public FinishProjectCommandHandler(DevFreelaDbContext dbContext) 
             => _dbContext = dbContext;
         
         public async Task<Unit> Handle(FinishProjectCommand request, CancellationToken cancellationToken)
