@@ -1,27 +1,27 @@
 using MediatR;
-using System.Threading;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
-using DevFreela.Infrastructure.Persistence;
+using DevFreela.Core.Repositories;
 using DevFreela.Application.Models.ViewModels;
 
 namespace DevFreela.Application.Queries.GetAllUserSkills
 {
     public class GetAllUserSkillsQueryHandler : IRequestHandler<GetAllUserSkillsQuery, List<UserSkillViewModel>>
     {
-        private readonly DevFreelaDbContext _dbContext;
+        private readonly IUserSkillRepository _userSkillRepository;
 
-        public GetAllUserSkillsQueryHandler(DevFreelaDbContext dbContext) 
-            => _dbContext = dbContext;
+        public GetAllUserSkillsQueryHandler(IUserSkillRepository userSkillRepository)
+            => _userSkillRepository = userSkillRepository;
 
         public async Task<List<UserSkillViewModel>> Handle(GetAllUserSkillsQuery request, CancellationToken cancellationToken)
         {
-            var userSkills = _dbContext.UserSkills;
-            var userSkillViewModel = await userSkills
+            var userSkills = await _userSkillRepository.GetAllAsync();
+
+            var userSkillViewModel = userSkills
                 .Select(u => new UserSkillViewModel(u.IdUser, u.IdSkill))
-                .ToListAsync();
+                .ToList();
             return userSkillViewModel;
         }
     }
