@@ -5,19 +5,20 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using DevFreela.Infrastructure.Persistence;
 using DevFreela.Application.Models.ViewModels;
+using DevFreela.Core.Repositories;
 
 namespace DevFreela.Application.Queries.GetUserById
 {
     public class GetUserQueryHandler : IRequestHandler<GetUserQuery, UserDetailsViewModel>
     {
-        private readonly DevFreelaDbContext _dbContext;
+        private readonly IUserRepository _userRepository;
 
-        public GetUserQueryHandler(DevFreelaDbContext dbContext) 
-            => _dbContext = dbContext;
+        public GetUserQueryHandler(IUserRepository userRepository) 
+            => _userRepository = userRepository;
 
         public async Task<UserDetailsViewModel> Handle(GetUserQuery request, CancellationToken cancellationToken)
         {
-            var user = await _dbContext.Users.SingleOrDefaultAsync(u => u.Id == request.Id);
+            var user = await _userRepository.GetByIdAsync(request.Id);
 
             if (user == null)
             {

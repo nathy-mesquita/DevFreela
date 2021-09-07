@@ -3,27 +3,25 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
-using DevFreela.Infrastructure.Persistence;
+using DevFreela.Core.Repositories;
 using DevFreela.Application.Models.ViewModels;
 
 namespace DevFreela.Application.Queries.GetAllUsers
 {
     public class GetAllUsersQueryHandler : IRequestHandler<GetAllUsersQuery, List<UserViewModel>>
     {
-        private readonly DevFreelaDbContext _dbContext;
+        private readonly IUserRepository _userRepository;
 
-        public GetAllUsersQueryHandler(DevFreelaDbContext dbContext) 
-            => _dbContext = dbContext;
+        public GetAllUsersQueryHandler(IUserRepository userRepository) 
+            => _userRepository = userRepository;
 
         public async Task<List<UserViewModel>> Handle(GetAllUsersQuery request, CancellationToken cancellationToken)
         {
-            var users = _dbContext.Users;
+            var users = await _userRepository.GetAllAsync();
 
-            var userViewModel = await users
+            var userViewModel = users
             .Select(u => new UserViewModel(u.Id, u.FullName, u.CreatedAt))
-            .ToListAsync();
-
+            .ToList();
             return userViewModel;
         }
     }
