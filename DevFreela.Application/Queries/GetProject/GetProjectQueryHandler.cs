@@ -4,22 +4,20 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using DevFreela.Infrastructure.Persistence;
 using DevFreela.Application.Models.ViewModels;
+using DevFreela.Core.Repositories;
 
 namespace DevFreela.Application.Queries.GetProject
 {
     public class GetProjectQueryHandler : IRequestHandler<GetProjectQuery, ProjectDetailsViewModel>
     {
-        private readonly DevFreelaDbContext _dbContext;
+        private readonly IProjectRepository _projectRepository;
 
-        public GetProjectQueryHandler(DevFreelaDbContext dbContext) 
-            => _dbContext = dbContext;
+        public GetProjectQueryHandler(IProjectRepository projectRepository) 
+            => _projectRepository = projectRepository;
 
         public async Task<ProjectDetailsViewModel> Handle(GetProjectQuery request, CancellationToken cancellationToken)
         {
-            var project = await _dbContext.Projects
-                .Include(p => p.Client)
-                .Include(p => p.Freelancer) 
-                .SingleOrDefaultAsync(p => p.Id == request.Id);
+            var project = await _projectRepository.GetByIdAsync(request.Id);
             if (project == null) return null;
 
             var projectDetailsViewModel = new ProjectDetailsViewModel(
