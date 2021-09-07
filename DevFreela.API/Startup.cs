@@ -1,4 +1,5 @@
 using DevFreela.Application;
+using DevFreela.Infrastructure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Hosting;
@@ -12,17 +13,13 @@ namespace DevFreela.API
     public class Startup
     {
         private readonly IConfiguration _configuration;
-        public Startup(IConfiguration configuration)
-        {
-            _configuration = configuration;
-        }
-
-        // This method gets called by the runtime. Use this method to add services to the container.
+        public Startup(IConfiguration configuration) 
+            => _configuration = configuration;
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddWebApi();
             services.AddApplication(_configuration);
-            //services.AddRepositories(_configuration);
+            services.AddInfrastructure(_configuration);
             services.AddSwaggerApiDoc();
 
             var connectionString = _configuration.GetConnectionString("DevFreelaCs");
@@ -31,7 +28,6 @@ namespace DevFreela.API
             );
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseWebApi();
