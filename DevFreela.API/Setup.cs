@@ -13,6 +13,7 @@ namespace DevFreela.API
                     {
                         options.JsonSerializerOptions.IgnoreNullValues = true;
                     });
+                    //.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreateUserCommandValidator>());
             
             services.AddHealthChecks();
         }
