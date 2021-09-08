@@ -9,12 +9,11 @@ namespace DevFreela.Infrastructure.Persistence.Repositories
     public class SkillRepository : ISkillRepository
     {
         private readonly DevFreelaDbContext _dbContext;
-        private readonly string _connectionString;
+        //private readonly string _connectionString;
 
-        public SkillRepository(DevFreelaDbContext dbContext, string connectionString)
+        public SkillRepository(DevFreelaDbContext dbContext)
         {
             _dbContext = dbContext;
-            _connectionString = connectionString;
         }
 
         public async Task<List<Skill>> GetAllAsync()

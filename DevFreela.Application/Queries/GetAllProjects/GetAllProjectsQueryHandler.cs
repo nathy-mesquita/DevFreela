@@ -1,12 +1,10 @@
 using MediatR;
 using System.Linq;
 using System.Threading;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
-using DevFreela.Infrastructure.Persistence;
-using DevFreela.Application.Models.ViewModels;
-using DevFreela.Core.Repositories;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using DevFreela.Core.Repositories;
+using DevFreela.Application.Models.ViewModels;
 
 namespace DevFreela.Application.Queries.GetAllProjects
 {
