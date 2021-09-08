@@ -1,5 +1,7 @@
 using MediatR;
 using System.Reflection;
+using FluentValidation.AspNetCore;
+using DevFreela.Application.Validators;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -12,6 +14,7 @@ namespace DevFreela.Application
             var assemblies = Assembly.GetExecutingAssembly(); 
 
             services.AddMediatR(assemblies); 
+            services.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CreateUserCommandValidator>());
 
             return services;
         }
