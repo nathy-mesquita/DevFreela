@@ -1,6 +1,7 @@
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using DevFreela.API.Filters;
 
 namespace DevFreela.API
 {
@@ -8,7 +9,7 @@ namespace DevFreela.API
     {
         public static void AddWebApi(this IServiceCollection services)
         {
-            services.AddControllers()
+            services.AddControllers(options => options.Filters.Add(typeof(ValidatorFilter)))
                     .AddJsonOptions(options =>
                     {
                         options.JsonSerializerOptions.IgnoreNullValues = true;
