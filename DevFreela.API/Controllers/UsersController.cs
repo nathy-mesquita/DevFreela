@@ -1,10 +1,10 @@
 ﻿using MediatR;
-using DevFreela.API.Models;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using DevFreela.Application.Commands.CreateUser;
 using DevFreela.Application.Queries.GetAllUsers;
 using DevFreela.Application.Queries.GetUserById;
+using DevFreela.Application.Commands.LoginUser;
 
 namespace DevFreela.API.Controllers
 {
@@ -46,11 +46,15 @@ namespace DevFreela.API.Controllers
         }
 
         //PUT api/users/id/login
-        [HttpPut("{id}/login")]
-        public IActionResult Login(int id, [FromBody] LoginModel login)
+        [HttpPut("login")]
+        public async Task<IActionResult> Put([FromBody] LoginUserCommand command)
         {
-            //Todo: Módulo de autenticação e Autorização
-            return NoContent();
+            var loginUserViewModel = await _mediator.Send(command);
+            if (loginUserViewModel == null)
+            {
+                return BadRequest();
+            }
+            return Ok(loginUserViewModel);
         }
     }
 }
