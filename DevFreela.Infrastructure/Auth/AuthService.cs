@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using Microsoft.Extensions.Configuration;
+using System.Security.Cryptography;
 
 namespace DevFreela.Infrastructure.Auth
 {
@@ -51,6 +52,24 @@ namespace DevFreela.Infrastructure.Auth
             var stringToken = tokenHandler.WriteToken(token);
 
             return stringToken;
+        }
+    
+        public string ComputeSha256Hash(string password)
+        {
+
+            using(SHA256 sha256Hash = SHA256.Create())
+            {
+                //ComputeHash -> Retorna o Array de bytes
+                byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(password));
+
+                StringBuilder builder = new StringBuilder();
+                for (int i = 0; i < bytes.Length; i++)
+                {
+                    builder.Append(bytes[i].ToString("x2")); //x2 faz com que seja convertido em hexadecimal
+                }
+                return builder.ToString();
+            }
+
         }
     }
 }
