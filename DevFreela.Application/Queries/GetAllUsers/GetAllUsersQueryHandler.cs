@@ -20,7 +20,7 @@ namespace DevFreela.Application.Queries.GetAllUsers
             var users = await _userRepository.GetAllAsync();
 
             var userViewModel = users
-            .Select(u => new UserViewModel(u.Id, u.FullName, u.CreatedAt))
+            .Select(u => new UserViewModel(u.Id, u.FullName, u.Email, u.Role, u.CreatedAt))
             .ToList();
             return userViewModel;
         }

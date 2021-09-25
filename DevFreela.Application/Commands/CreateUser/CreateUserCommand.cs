@@ -3,6 +3,9 @@ using MediatR;
 
 namespace DevFreela.Application.Commands.CreateUser
 {
+    /// <summary>
+    /// Create user commmand input
+    /// </summary>
     public class CreateUserCommand : IRequest<int>
     {
         public string FullName { get; set; }

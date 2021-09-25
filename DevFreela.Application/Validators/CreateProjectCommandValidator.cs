@@ -18,8 +18,8 @@ namespace DevFreela.Application.Validators
 
             RuleFor(p => p.TotalCost)
                 .GreaterThan(0)
-                .ScalePrecision(2, 4)
-                .WithMessage("Total Cost é um valor em decimal de até 4 dígitos!");
+                .ScalePrecision(2, 6)
+                .WithMessage("Total Cost é um valor em decimal de até 6 dígitos!");
         }
     }
 }

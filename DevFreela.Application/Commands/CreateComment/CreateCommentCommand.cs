@@ -2,6 +2,9 @@ using MediatR;
 
 namespace DevFreela.Application.Commands.CreateComment
 {
+    /// <summary>
+    /// Create comment command input
+    /// </summary>
     public class CreateCommentCommand : IRequest<Unit>
     {
         public string Content { get; set; }

@@ -2,6 +2,9 @@ using MediatR;
 
 namespace DevFreela.Application.Commands.CreateProject
 {
+    /// <summary>
+    /// Create project command input
+    /// </summary>
     public class CreateProjectCommand : IRequest<int>
     {
         public string Title { get; set; }
