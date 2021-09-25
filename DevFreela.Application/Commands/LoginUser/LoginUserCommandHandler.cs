@@ -1,9 +1,9 @@
+using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
-using DevFreela.Application.Models.ViewModels;
-using DevFreela.Core.Repositories;
 using DevFreela.Core.Services;
-using MediatR;
+using DevFreela.Core.Repositories;
+using DevFreela.Application.Models.ViewModels;
 
 namespace DevFreela.Application.Commands.LoginUser
 {
@@ -25,10 +25,7 @@ namespace DevFreela.Application.Commands.LoginUser
             //Todo: Buscar no banco um User que tenha o meu email e senha no formato Hash
             var user = await _userRepository.GetUserByEmailAndPasswordAsync(request.Email, passwordHash);
             //Todo: Se não existir, erro no login
-            if(user == null)
-            {
-                return null;
-            }
+            if(user is null)return null;
             //Todo: Se existir, gero o token passando os dados do usuário
             var token = _authService.GenereteJwtToken(user.Email, user.Role);
             var loginUserViewModel = new LoginUserViewModel(user.Email, token);
