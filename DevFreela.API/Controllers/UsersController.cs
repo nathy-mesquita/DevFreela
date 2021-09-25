@@ -50,7 +50,7 @@ namespace DevFreela.API.Controllers
         public async Task<IActionResult> Put([FromBody] LoginUserCommand command)
         {
             var loginUserViewModel = await _mediator.Send(command);
-            if (loginUserViewModel == null)
+            if (loginUserViewModel is null)
             {
                 return BadRequest();
             }
