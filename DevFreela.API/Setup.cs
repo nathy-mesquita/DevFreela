@@ -1,3 +1,7 @@
+using System;
+using System.IO;
+using System.Linq;
+using System.Reflection;
 using DevFreela.API.Filters;
 using Microsoft.OpenApi.Models;
 using Microsoft.AspNetCore.Builder;
@@ -21,10 +25,11 @@ namespace DevFreela.API
 
         public static void UseWebApi(this IApplicationBuilder app)
         {
+            app.UseStaticFiles();
             app.UseHttpsRedirection();
             app.UseRouting();
-            app.UseAuthorization();
             app.UseAuthentication();
+            app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
@@ -34,18 +39,26 @@ namespace DevFreela.API
 
         public static void AddSwaggerApiDoc(this IServiceCollection services)
         {
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "API DevFreela", Version = "v1" });
 
+                var currentAssembly = Assembly.GetExecutingAssembly();
+                var xmlDocs = currentAssembly.GetReferencedAssemblies()
+                    .Union(new AssemblyName[] { currentAssembly.GetName() })
+                    .Select(a => Path.Combine(Path.GetDirectoryName(currentAssembly.Location)!, $"{a.Name}.xml"))
+                    .Where(f => File.Exists(f)).ToArray();
+                Array.ForEach(xmlDocs, (d) => c.IncludeXmlComments(d));
+
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
-                        Name = "Authorization",
-                        Type = SecuritySchemeType.ApiKey,
-                        Scheme = "Bearer",
-                        BearerFormat = "JWT",
-                        In = ParameterLocation.Header,
-                        Description = "JWT Authorization header usando o esquema Bearer"
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey,
+                    Scheme = "Bearer",
+                    BearerFormat = "JWT",
+                    In = ParameterLocation.Header,
+                    Description = "JWT Authorization header usando o esquema Bearer"
                 });
 
                 c.AddSecurityRequirement(new OpenApiSecurityRequirement
@@ -69,7 +82,13 @@ namespace DevFreela.API
         {
             app.UseDeveloperExceptionPage();
             app.UseSwagger();
-            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Version 1"));
+            app.UseSwaggerUI(c => 
+            {
+                c.DocumentTitle = "API DevFreela | Nathaly Swagger";
+                c.InjectStylesheet("/swagger-ui/custom.css");
+                c.InjectJavascript("/swagger-ui/custom.js");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Version 1");
+            });
         }
     }
 }
