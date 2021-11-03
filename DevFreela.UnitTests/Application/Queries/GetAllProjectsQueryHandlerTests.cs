@@ -12,7 +12,7 @@ namespace DevFreela.UnitTests.Application.Queries
     public class GetAllProjectsQueryHandlerTests
     {
         [Fact]
-        [Trait("GetProject", "Handle")]
+        [Trait("GetAllProject", "Handle")]
         public async Task ThreeProjectsExist_Fetched_ReturnThreeProjectViewModels()
         {
             //Arrange
